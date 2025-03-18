@@ -1,0 +1,69 @@
+extends layout.pug 
+//- 这个注册页面后续需要完善样式
+block mainContent 
+  .container(class="bg-[#dfdfdf] w-full p-[20px]")
+    div(class="w-[750px] h-[368px] bg-[#fff] border border-[#dfdfdf] rounded-[3px]")
+      div(class="border-b-[1px] border-[#dfdfdf] p-[10px] text-[15px] h-[18px] leading-[18px]")
+        span(class="text-[#778087]") 
+          a(href="#") V3EX
+        span.
+          &gt; 注册新用户
+      div(class="p-[10px]")
+        div(class="border-b-[1px] border-[#dfdfdf] my-[5px]") 欢迎来到 V2EX，这里是创意工作者的数字化公共空间。
+        form(action="/register" method="post" enctype="multipart/form-data") 
+          table   
+            tbody 
+              tr(class="w-full")
+                td(width="120" align="right" class="p-[5px]") 用户名
+                td(width="auto" align="left" class="p-[5px]")
+                  input(type="text" name="accountName" placeholder="必填项，要求3-10个字符")
+              tr(class="w-full")
+                td(width="120" align="right" class="p-[5px]") 密码
+                td(width="auto" align="left" class="p-[5px]")
+                  input(type="text" name="password" placeholder="必填项，要求3-个字符")
+              tr(class="w-full")
+                td(width="120" align="right" class="p-[5px]") 确认密码
+                td(width="auto" align="left" class="p-[5px]")
+                  input(type="text" name="confirmedPassword" placeholder="必填项，要求3-个字符")
+              tr(class="w-full")
+                td(width="120" align="right" class="p-[5px]") 邮箱
+                td(width="auto" align="left" class="p-[5px]")
+                  input(type="text" name="email" placeholder="必填项，帮助找回密码")
+              tr(class="w-full")
+                td(width="120" align="right" class="p-[5px]") 电话
+                td(width="auto" align="left" class="p-[5px]")
+                  input(type="text" name="tel" placeholder="选填")
+              tr(class="w-full")
+                td(width="120" align="right" class="p-[5px]") 头像
+                td(width="auto" align="left" class="p-[5px]")
+                  input(type="file" name="avatar" placeholder="")
+              tr(class="w-full")
+                td(width="120" align="right" class="p-[5px]") 你是机器人吗？
+                td(width="auto" align="left" class="p-[5px]")
+                  img(src="/captcha" alt="验证码" onclick="this.src = '/captcha?' + Math.random()")
+              tr(class="w-full")
+                td(width="120" align="right" class="p-[5px]") 输入验证码： 
+                td(width="auto" align="left" class="p-[5px]")
+                  input(type="text" name="captcha")
+              tr(class="w-full")
+                td(width="120" align="right" class="p-[5px]") 
+                td(width="auto" align="left" class="p-[5px]")
+                  button 注册
+                
+          //- div 用户名
+          //-   input(type="text" name="accountName" placeholder="必填项，要求3-10个字符")
+          //- div 密码
+          //-   input(type="text" name="password" placeholder="必填项，要求3-个字符")
+          //- div 确认密码
+          //-   input(type="text" name="confirmedPassword" placeholder="必填项，要求3-个字符")
+          //- div 邮箱
+          //-   input(type="text" name="email" placeholder="必填项，帮助找回密码")
+          //- div 电话
+          //-   input(type="text" name="tel" placeholder="选填项")
+          //- div 头像
+          //-   input(type="file" name="avatar" )
+          //- button 注册
+        div(class="border-b-[1px] border-[#dfdfdf] mt-[10px]") 
+          | 如果你之前已经注册过账号，那么请从
+          a(href="/login") 这里
+          | 登录

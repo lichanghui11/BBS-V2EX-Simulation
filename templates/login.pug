@@ -1,0 +1,40 @@
+extends layout.pug 
+block mainContent 
+  .container(class="bg-[#dfdfdf] w-full p-[20px]")
+    div(class="w-[750px] h-[268px] bg-[#fff] border border-[#dfdfdf] rounded-[3px]")
+      div(class="border-b-[1px] border-[#dfdfdf] p-[10px] text-[15px] h-[18px] leading-[18px]")
+        span(class="text-[#778087] inline-block mr-[10px]") 
+          a(href="#") V3EX
+        span(class="inline-block pl-[50px]").
+          &gt; 登录🔒
+      div(class="p-[10px] w-full")
+        form(action="/login" method="post" class="w-full") 
+          table(class="w-full") 
+            tbody(class="w-full") 
+              tr(class="w-full") 
+                td(width="120" align="right" class="p-[5px]") 用户名 
+                td(width="auto" align="left" class="p-[5px]") 
+                  input(type="text" placeholder="" name="accountName" class="w-[17px]")
+              tr
+                td(width="120" align="right") 密码
+                td(width="auto" align="left") 
+                  input(type="text" name="password" class="w-[17px] p-[5px] border-[1px]")
+              if session.failedCount >= 4
+                tr(class="w-full")
+                  td(width="120" align="right" class="p-[5px]") 你是机器人吗？
+                  td(width="auto" align="left" class="p-[5px]")
+                    img(src="/captcha" alt="验证码" onclick="this.src = '/captcha?' + Math.random()")
+                tr(class="w-full")
+                  td(width="120" align="right" class="p-[5px]") 输入验证码： 
+                  td(width="auto" align="left" class="p-[5px]")
+                    input(type="text" name="captcha")
+              tr
+                td(width="120" align="right")  
+                td(width="auto" align="left") 
+                  button 登录
+              tr
+                td(width="120" align="right")  
+                td(width="auto" align="left") 
+                  a(href="/register" class="") 我要注册
+                  br
+                  a(href="/forgot-password" class="") 我忘记了密码

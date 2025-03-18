@@ -1,0 +1,62 @@
+doctype html 
+html(lang='zh')
+  head 
+    meta(charset='utf-8')
+    title V3EX
+    link(rel="stylesheet", href="/tailwind.css")
+    script(src="/relativeTime.js")
+    //- script(src="https://unpkg.com/@tailwindcss/browser@4")
+  body(class="") 
+    .contain-all-content
+      .header(class="h-[44px] px-[20px] flex leading-[44px]") 
+        div(class="pr-[10px]") V3EX LOGO
+          img()
+        div(class="mr-auto")
+          input(class="outline-none h-[19px] border-[1px] rounded-[10px]" type="text" placeholder="在这里搜索..." name='search')
+        if isLogin
+          div(class="text-[15px] text-[#556] font-[500]")
+            span 
+              a(href="/") 首页
+            span 
+              a 用户名
+            span 
+              a 记事本
+            span 
+              a 时间轴
+            span 
+              a 设置
+            span 
+              a(href="/logout") 登出
+        else
+          div(class="text-[15px] text-[#556] font-[500]")
+            span 
+              a(href="/") 首页
+            span 
+              a(href="/register") 注册
+            span 
+              a(href="/login") 登录
+      .main(class="")
+        block mainContent
+      .footer 
+        .content(class="mx-[59px] min-w-[800px]")
+          .inner(class="p-[10px]")
+            div(class="text-[14px] font-[700] leading-[21px] text-[#808080] flex justify-between") 
+              span 关于
+              span 帮助文档
+              span 博客
+              span API
+              span FAQ
+              span 实用小工具
+              span 2008人在线
+              span 最高记录 8899
+              span(class="text-[12px]") Select Language
+            div(class="text-[14px] leading-[21px] text-[#808080]")
+              p 创意者们的工作社区
+              p World is powered by solitude
+            div(class="text-[12px] leading-[21px] text-[#ccc]") 
+              p VERSION: 1.0.0
+              p Developed by lichanghui
+              p ♥ Do have faith in what you're doing.
+
+
+

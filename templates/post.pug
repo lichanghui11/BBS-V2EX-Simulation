@@ -1,0 +1,85 @@
+extends layout.pug 
+mixin onePost(post)
+  div(class="p-[10px] h-[100px] border-b-[1px] border-[#2e2e2e] bg-[#f9f9f9]")
+    div(class="flex border-b-[1px] border-[#2e2e2e]")
+      img(src=post.avatarUrl, alt="头像")
+      span=post.postTitle
+    div(class="") 
+      div(class="text-[16px] leading-[20px]")=post.postContent
+      div(class="flex gap-[10px] text-[12px] leading-[24px] text-[#ccc] mt-[5px]")
+        span= 'ip: ' + post.ip + ' '
+        span.relative-time(data-time=post.createdAt)
+        span='贴文发表者：' + post.accountName
+        if (isLogin && loginUser.userId == post.createdBy)
+          div(class="删除按钮") 
+            button(data-post-id=post.postId).delete-button 删除
+            script.
+              var btn = document.querySelector('.delete-button')
+              btn.onclick = async (e) => {
+                await fetch('/delete-post/' + e.target.dataset.postId, {
+                  method: 'delete',
+                })
+                location.href='/'
+              }
+
+mixin oneComment(comment)
+  div(class="p-[10px] border-b-[1px] border-[#2e2e2e] bg-[#f9f9f9] flex")
+    div(class="") 
+      div(class="text-[16px] leading-[20px]")
+        img(src=comment.avatarUrl, alt="头像")
+        span=comment.commentContent
+      div(class="flex gap-[10px] text-[12px] leading-[24px] text-[#ccc] mt-[5px]")
+        span= 'ip: ' + comment.ip
+        span.relative-time(data-time=comment.createdAt)
+        span='评论发表者：' + comment.commentOwner
+    if (isLogin && loginUser.userId == comment.createdBy)
+      div(class="删除按钮") 
+        button(data-comment-id=comment.commentId data-post-id=comment.postId).delete-comm-button 删除
+        script.
+          var btnComm = document.querySelector('.delete-comm-button')
+          btnComm.onclick = async (e) => {
+            await fetch('/delete-comment/' + e.target.dataset.commentId, {
+              method: 'delete',
+            })
+            location.href='/post/' + e.target.dataset.postId
+          }
+
+block mainContent 
+  div(class="bg-[#dfdfdf] w-full flex p-[20px] gap-[20px]")
+    .main(class="w-[750px]")
+      div(class="border-b-[1px] border-[#e2e2e2] h-[21px] py-[10-px] pl-[20px] pr-[10px] leading-[21px] text-[14px] bg-[#f9f9f9] mb-[10px]") 以下是贴文主页
+      div(class="h-[20px] bg-[#dfdfdf]") 这里后面需要补充样式，以下是这份贴文的详情
+      +onePost(post)
+      div(class="h-[20px] bg-[#dfdfdf]") 这里后面需要补充样式，以下是评论区
+      div(class="bg-[#f9f9f9] border-b-[1px] border-[#e2e2e2] mb-[20px]")
+        form(action="/add-comment/" + post.postId, method="post") 
+          div 
+            textarea(name="commentContent" placeholder="在评论区留下你的看法..." class="placeholder-[#9196a1] border-none resize-none w-full focus:outline-none focus:ring" rows="2") 
+          div
+            button 提交评论
+      div 
+        each comment in comments 
+          +oneComment(comment)
+    .right(class="w-[270px] h-[158px] bg-[#fff] ")
+      if !isLogin
+        div(class="border-b-[1px] border-[#e2e2e2] p-[10px]") 
+          if isLogin 
+          div(class="text-[14px] font-[700] leading-[21px] mb-[5px]") V3EX = way to explore
+          div(class="text-[14px] leading-[21px] text-[#ccc] ") V3EX 是一个关于分享和探索的地方
+        div(class="text-center text-[14px] p-[10px]") 
+          form(action="/register" method="get" class="mt-[5px]") 
+            button(class="border-[1px] px-[15px] pt-[4px] pb-[3px] rounded-[3px] text-[#333] font-[700] leading-[20px]  outline-[#c4c4c6] cursor-pointer") 现在注册
+          div(class="leading-[21px] mt-[10px] leading-[21px]") 已注册用户请 
+            a(href="/login") 登录
+      else 
+        div(class="border-b-[1px] border-[#e2e2e2] p-[10px]") 
+          div(class="flex" style="justify-content: space-around;")
+            img(src=loginUser.avatarUrl, alt="头像")
+            strong(class="" style="align-self: center;")=loginUser.accountName
+        div(class="text-center text-[14px] p-[10px]") 
+          span 节点收藏
+          span 主题收藏
+          span 特别关注
+        div(class="text-center text-[14px] p-[10px]") 
+          span 未读提醒 
+          span 经验积累

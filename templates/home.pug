@@ -1,0 +1,83 @@
+extends layout.pug 
+
+//- 在这里声明一个mixin函数来对每个贴文进行格式化布局
+mixin onePost(post)
+  div(class="flex gap-[10px] p-[10px] h-[50px] border-b-[1px] border-[#2e2e2e] bg-[#f9f9f9]")
+    div(class="")
+      img(src=post.avatarUrl, alt="头像")
+    div(class="ml-[10px]") 
+      div(class="text-[16px] leading-[20px]")
+        a(href="/post/" + post.postId)=post.postTitle
+    div(class="flex gap-[10px] text-[12px] leading-[24px] text-[#ccc] mt-[5px]") 
+      span= 'ip: ' + post.ip + ' '
+      span.relative-time(data-time=post.createdAt)
+      span='贴文发表者：' + post.accountName
+    if (isLogin && loginUser.userId == post.createdBy)
+      div(class="删除按钮") 
+        button(data-post-id=post.postId).delete-button 删除
+        script.
+          var btn = document.querySelector('.delete-button')
+          btn.onclick = async (e) => {
+            await fetch('/delete-post/' + e.target.dataset.postId, {
+              method: 'delete',
+            })
+            location.href='/'
+          }
+          
+block mainContent 
+  div(class="bg-[#dfdfdf] w-full flex p-[20px] gap-[20px]")
+    .main(class="w-[750px]")
+      if isLogin
+        .wannaPost(class="mb-[20px] block")
+          form(action="/add-post" method="post" class="bg-[#fff]") 
+            div 标题
+              input(type="text" name="postTitle")
+            div 内容
+              textarea(name="postContent")
+            button 提交
+      else 
+        div 登录后可发布贴文
+          a(href="/login") 去登录  
+      div(class="border-b-[1px] border-[#e2e2e2] h-[21px] py-[10-px] pl-[20px] pr-[10px] leading-[21px] text-[14px] bg-[#f9f9f9]") 以下是贴文主页
+      each p in posts
+        +onePost(p)
+      div(class="bg-[#dfdfdf] w-full ")
+        ul(class=" list-none flex justify-items-center gap-[10px] bg-[#fff] w-full pl-[0px]" style="list-style-type:none;padding-left:0;") 
+          if page > 1
+            li: a(href="/?page=" + (page - 1)) <
+          else 
+            li <
+          - for(let i = 1; i <= totalPages; i++) 
+            li 
+              if (i == page)
+                span=i
+              else 
+                a(href="/?page=" + i)=i
+          if (page < totalPages) 
+            li: a(href="/?page=" + (1 + Number(page))) >
+          else 
+            li >
+      
+    .right(class="w-[270px] h-[158px] bg-[#fff] ")
+      if !isLogin
+        div(class="border-b-[1px] border-[#e2e2e2] p-[10px]") 
+          if isLogin 
+          div(class="text-[14px] font-[700] leading-[21px] mb-[5px]") V3EX = way to explore
+          div(class="text-[14px] leading-[21px] text-[#ccc] ") V3EX 是一个关于分享和探索的地方
+        div(class="text-center text-[14px] p-[10px]") 
+          form(action="/register" method="get" class="mt-[5px]") 
+            button(class="border-[1px] px-[15px] pt-[4px] pb-[3px] rounded-[3px] text-[#333] font-[700] leading-[20px]  outline-[#c4c4c6] cursor-pointer") 现在注册
+          div(class="leading-[21px] mt-[10px] leading-[21px]") 已注册用户请 
+            a(href="/login") 登录
+      else 
+        div(class="border-b-[1px] border-[#e2e2e2] p-[10px]") 
+          div(class="flex justify-between" style="justify-content: space-around;") 
+            img(src=loginUser.avatarUrl, alt="头像")
+            strong(class="" style="align-self: center;")=loginUser.accountName
+        div(class="text-center text-[14px] p-[10px]") 
+          span 节点收藏
+          span 主题收藏
+          span 特别关注
+        div(class="text-center text-[14px] p-[10px]") 
+          span 未读提醒 
+          span 经验积累
