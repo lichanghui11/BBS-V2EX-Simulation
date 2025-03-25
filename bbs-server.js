@@ -667,3 +667,21 @@ const server = app.listen(port, "0.0.0.0", () => {
   console.log("bbs-v2ex-like is listening on port: ", port);
   console.log("bbs-v2ex-like is listening on address : ", address.address);
 });
+
+
+
+// //app.use(express.json())
+// app.use((req, res, next) => {
+//   if (req.is('json')) {
+//     let body = '';
+//     req.on('data', data => { 
+//       body += data.toString(); 
+//     })
+//     req.on('end', () => {
+//       req.body = JSON.parse(body)
+//       next()
+//     })
+//   } else {
+//     next()
+//   }
+// })
