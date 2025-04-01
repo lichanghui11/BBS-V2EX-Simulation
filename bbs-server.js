@@ -82,7 +82,7 @@ function hashPassword(password, salt) {
 
 const app = express();
 const port = 8899;
-const db = new Database("./data/bbs.db");
+const db = new Database("./dist/bbs.db");
 const ajv = new Ajv();
 ajvFormats(ajv); //启用格式验证
 //========================================这部分内容用来实例化和设置初始值

@@ -1,3 +1,5 @@
+//这个文件实际上并没有用， 数据库是在命令行完成的
+
 const Database = require('better-sqlite3');
 const path = require('node:path');
 
